@@ -68,3 +68,9 @@ Loading skeletons, empty states ("No complaints yet.", "All caught up.", "No act
 - Each route gets its own `head()` metadata.
 - Final check with a headless browser at 360, 390, 768, 1024, 1280 and 1440px in both themes: no horizontal scroll, clipping, or overlap; nav, forms and drawers usable at every width.
 
+
+## Integration constraints
+
+- **CSS isolation** — all new tokens are namespaced (`--hms-*`) and mapped into Tailwind theme names, added additively to `src/styles.css`. No global element/tag resets, no assumption that this stylesheet replaces the HMS one; a single `hms-root` wrapper class scopes the token block so it can be dropped into the existing app without colliding.
+- **Portable components** — every Student/Staff/Warden UI component is a plain React component taking props and callbacks. No `useNavigate`, `Link`, `useParams`, or loader APIs inside them; routing lives only in the route/layout files, which pass down data and `onNavigate`-style handlers. Components move to the React Router HMS unchanged.
+- **Mock data separation** — mock records live in `src/data/*.ts` and all mutations go through a thin service layer (`src/services/*.ts`, e.g. `listComplaints`, `createComplaint`, `updateComplaintStatus`) backed by local state and exposed via a small context/hook. Swapping that layer for the real HMS API later requires no component changes.
