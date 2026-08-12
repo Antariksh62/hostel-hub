@@ -40,15 +40,31 @@ Nav: Overview, Complaints, Rooms, Staff, Reports, Profile.
 - **Staff** — simple workload table: name, active assignments, in progress, resolved, with a plain flag on genuine imbalance.
 - **Reports** — light summary lists (complaints by category, by floor, resolution time), no chart-heavy dashboard.
 
+## Light + dark mode
+
+Both themes are first-class, built from one shared token set — no duplicated components, no inverted palette.
+
+- A `ThemeProvider` writes `.dark` on `<html>`, reads/writes `localStorage`, and defaults to the system preference. A labelled sun/moon toggle sits in the app chrome (sidebar footer on desktop, header on mobile) and on the role picker, so it works everywhere including dialogs, drawers, tables and mobile nav.
+- Dark surfaces are soft charcoal (never pure black) with slightly lifted card/popover layers; text is near-white, not `#fff`. Light mode stays white/light-gray with charcoal text.
+- Tokens defined per mode for background, foreground, card/popover, border, input, muted, primary blue, and status colors (green resolved, amber pending, red critical only) — with separate accessible foreground/tint values per mode for badges, empty states and error states.
+- Contrast checked in both modes; status always carries an icon and text label, never color alone.
+
 ## States
 
 Loading skeletons, empty states ("No complaints yet.", "All caught up.", "No active assignments."), an inline error state, submit-success and destructive-action confirmation dialogs. Empty states stay empty — no filler data.
 
+## Scope guarantees
+
+- This project currently contains only the blank template — no HOIDSS files exist here, so nothing of HOIDSS is redesigned, replaced, or touched. All work is additive: new routes, new components, new mock-data files, plus token additions in `src/styles.css`.
+- The prototype's TanStack routing is a demo shell only. Screens are built as plain, portable React components with mock data passed in, so they drop into the existing React + Vite / React Router HMS without carrying routing or architecture changes along.
+- No backend, auth, database, API, notifications, or AI features. No extra KPI cards, charts, or analytics beyond what is listed above.
+
 ## Technical notes
 
 - TanStack Start file routes: `/` (role picker), `/student/*`, `/staff/*`, `/warden/*`, each role subtree with its own layout route rendering `<Outlet />` and role-appropriate nav.
-- Design tokens defined in `src/styles.css` (`@theme inline` + `:root`): neutral white/gray surfaces, charcoal text, muted secondary, subtle borders, one blue accent, green success, amber pending, red reserved for critical. Moderate radii, minimal shadow, no gradients or glassmorphism.
+- Design tokens in `src/styles.css` (`@theme inline` + `:root` + `.dark`). Moderate radii, minimal shadow, no gradients or glassmorphism.
 - shadcn primitives (button, input, select, badge, dialog, drawer/sheet, table, tabs, skeleton) styled to the tokens.
-- Mock data lives in `src/data/*.ts`: 90 rooms, ~30 complaints across statuses/floors, ~6 staff, one student profile. Shared React state per role subtree so status updates feel real during the session.
+- Mock data lives in `src/data/*.ts`: exactly 90 rooms (101–120, 201–220, 301–320, 401–420, 501–510), ~30 complaints across statuses/floors, ~6 staff, one student profile. Local React state per role subtree so status updates feel real during the session.
 - Each route gets its own `head()` metadata.
-- Responsive verified with a headless browser at 360, 390, 768, 1024, 1280 and 1440px: no horizontal scroll, clipping, or overlap.
+- Final check with a headless browser at 360, 390, 768, 1024, 1280 and 1440px in both themes: no horizontal scroll, clipping, or overlap; nav, forms and drawers usable at every width.
+
