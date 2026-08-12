@@ -74,3 +74,11 @@ Loading skeletons, empty states ("No complaints yet.", "All caught up.", "No act
 - **CSS isolation** — all new tokens are namespaced (`--hms-*`) and mapped into Tailwind theme names, added additively to `src/styles.css`. No global element/tag resets, no assumption that this stylesheet replaces the HMS one; a single `hms-root` wrapper class scopes the token block so it can be dropped into the existing app without colliding.
 - **Portable components** — every Student/Staff/Warden UI component is a plain React component taking props and callbacks. No `useNavigate`, `Link`, `useParams`, or loader APIs inside them; routing lives only in the route/layout files, which pass down data and `onNavigate`-style handlers. Components move to the React Router HMS unchanged.
 - **Mock data separation** — mock records live in `src/data/*.ts` and all mutations go through a thin service layer (`src/services/*.ts`, e.g. `listComplaints`, `createComplaint`, `updateComplaintStatus`) backed by local state and exposed via a small context/hook. Swapping that layer for the real HMS API later requires no component changes.
+
+## Implementation guardrails
+
+- Smallest change that satisfies the requirement; no restructuring or renaming once implementation starts.
+- No new dependencies unless genuinely required; use the existing shadcn primitives rather than custom rebuilds.
+- Consistent visuals across roles, with information density adapted per role.
+- No simulated backend behaviour — mock data is clearly labelled prototype data in `src/data/*.ts`, and the service layer is transparently local.
+- Build only what this plan lists. Priority order: usability, responsive behaviour, visual consistency, accessibility, portability, then polish.
