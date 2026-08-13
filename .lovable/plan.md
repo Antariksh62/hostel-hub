@@ -82,3 +82,35 @@ Loading skeletons, empty states ("No complaints yet.", "All caught up.", "No act
 - Consistent visuals across roles, with information density adapted per role.
 - No simulated backend behaviour — mock data is clearly labelled prototype data in `src/data/*.ts`, and the service layer is transparently local.
 - Build only what this plan lists. Priority order: usability, responsive behaviour, visual consistency, accessibility, portability, then polish.
+
+## Authentication UI (mock only)
+
+Frontend-only. No real auth, JWT, hashing, email, or API — a replaceable mock layer the real HMS auth can later swap out.
+
+### Entry
+
+`/login` replaces the role picker as the prototype entry (the picker remains reachable as a small "prototype role switcher" for testing). One shared auth shell — same card, typography, tokens, theme toggle — with a role selector (Student / Staff / Warden / Hostel Incharge) that switches the flow, not the design.
+
+### Staff / Warden / Incharge — email + password
+
+One reusable `EmailPasswordForm`: email, password with show/hide toggle, labelled inputs, Sign In. Validation, loading, and an "Incorrect email or password." error state. On success: Staff → `/staff`, Warden → `/warden`, Incharge → a plain placeholder screen stating the existing HOIDSS dashboard lives in the real HMS (nothing built or redesigned here).
+
+### Student — email + OTP
+
+- Email step: domain check for `@ms.pict.edu`, else "Please use your college email address."
+- OTP step: shows the verified email, a mobile-friendly 6-digit input (numeric keyboard, paste support), Verify, Resend with countdown cooldown, Change email, plus invalid ("That code is incorrect. Please try again.") and expired ("Your code has expired. Request a new one.") states. Any 6-digit code verifies in the mock, except a reserved wrong/expired code used to demo those states.
+- After verification the mock service looks the email up in mock student data: existing → straight to `/student`; new → registration.
+
+### New student registration
+
+Short, mobile-friendly, with a `Email → Verify → Details → Done` progress indicator. Verified email shown read-only with a "✓ Email verified" line. Fields: Full Name, PRN, Branch, Joining Year, Roll Number, Class/Division, Academic Year, Room Number — with Branch and Joining Year derived from the PRN where it parses, and validation messages per field. Success → `/student`.
+
+### Auth layer
+
+`src/services/auth.ts` + a small `AuthProvider` context exposing `currentUser`, `role`, `isAuthenticated`, `login`, `sendOtp`, `verifyOtp`, `registerStudent`, `logout`. Student profile records (including the sample Antariksh Rajesh Kothari / f24ce307 / CE / 2024 / Room 204) live in `src/data/*.ts`, never inside components. Dashboard components stay auth-unaware — they receive data via props/hooks; only route/layout files read the auth context.
+
+### Logout
+
+A Sign Out action in each role's chrome (sidebar footer on desktop, profile screen on mobile) clears mock state and returns to `/login`.
+
+Both themes and all six widths apply to login, OTP, and registration screens; no social login, password reset, or MFA beyond the student OTP flow.
