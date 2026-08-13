@@ -89,7 +89,7 @@ Frontend-only. No real auth, JWT, hashing, email, or API — a replaceable mock 
 
 ### Entry
 
-`/login` replaces the role picker as the prototype entry (the picker remains reachable as a small "prototype role switcher" for testing). One shared auth shell — same card, typography, tokens, theme toggle — with a role selector (Student / Staff / Warden / Hostel Incharge) that switches the flow, not the design.
+One shared auth shell at `/login` — same card, typography, tokens, theme toggle — with a role selector (Student / Staff / Warden / Hostel Incharge) that switches the flow, not the design.
 
 ### Staff / Warden / Incharge — email + password
 
