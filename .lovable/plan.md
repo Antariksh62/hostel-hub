@@ -2,9 +2,9 @@
 
 A frontend-only prototype with three role experiences (Student, Staff, Warden) sharing one calm, minimal design system. Mock data only — no backend, auth, or APIs. The existing HOIDSS dashboard is not touched or imitated.
 
-## Role switcher
+## Entry flow
 
-The landing page (`/`) is a simple role picker: three plain rows (Student, Staff, Warden) with a one-line description of that role's mental model. A small persistent "Switch role" control in the app chrome returns here, so the prototype stays testable.
+`/login` is the entry point: `/` redirects there, and the normal flow is login → authentication → the matching dashboard. The old role picker is demoted to a prototype-only route, `/prototype-roles`, reachable from a small plain "Switch prototype role" text link in the app chrome and a discreet link under the login form. It is styled as a developer/testing utility — plain list, explicit "Prototype testing only" label — never as a production sign-in mechanism.
 
 ## Navigation model
 
@@ -44,7 +44,7 @@ Nav: Overview, Complaints, Rooms, Staff, Reports, Profile.
 
 Both themes are first-class, built from one shared token set — no duplicated components, no inverted palette.
 
-- A `ThemeProvider` writes `.dark` on `<html>`, reads/writes `localStorage`, and defaults to the system preference. A labelled sun/moon toggle sits in the app chrome (sidebar footer on desktop, header on mobile) and on the role picker, so it works everywhere including dialogs, drawers, tables and mobile nav.
+- A `ThemeProvider` writes `.dark` on `<html>`, reads/writes `localStorage`, and defaults to the system preference. A labelled sun/moon toggle sits in the app chrome (sidebar footer on desktop, header on mobile) and on the login, OTP, registration and prototype-roles screens, so it works everywhere including dialogs, drawers, tables and mobile nav.
 - Dark surfaces are soft charcoal (never pure black) with slightly lifted card/popover layers; text is near-white, not `#fff`. Light mode stays white/light-gray with charcoal text.
 - Tokens defined per mode for background, foreground, card/popover, border, input, muted, primary blue, and status colors (green resolved, amber pending, red critical only) — with separate accessible foreground/tint values per mode for badges, empty states and error states.
 - Contrast checked in both modes; status always carries an icon and text label, never color alone.
@@ -61,7 +61,7 @@ Loading skeletons, empty states ("No complaints yet.", "All caught up.", "No act
 
 ## Technical notes
 
-- TanStack Start file routes: `/` (role picker), `/student/*`, `/staff/*`, `/warden/*`, each role subtree with its own layout route rendering `<Outlet />` and role-appropriate nav.
+- TanStack Start file routes: `/login` (entry, `/` redirects to it), `/prototype-roles` (testing only), `/student/*`, `/staff/*`, `/warden/*`, each role subtree with its own layout route rendering `<Outlet />` and role-appropriate nav.
 - Design tokens in `src/styles.css` (`@theme inline` + `:root` + `.dark`). Moderate radii, minimal shadow, no gradients or glassmorphism.
 - shadcn primitives (button, input, select, badge, dialog, drawer/sheet, table, tabs, skeleton) styled to the tokens.
 - Mock data lives in `src/data/*.ts`: exactly 90 rooms (101–120, 201–220, 301–320, 401–420, 501–510), ~30 complaints across statuses/floors, ~6 staff, one student profile. Local React state per role subtree so status updates feel real during the session.
@@ -89,7 +89,7 @@ Frontend-only. No real auth, JWT, hashing, email, or API — a replaceable mock 
 
 ### Entry
 
-`/login` replaces the role picker as the prototype entry (the picker remains reachable as a small "prototype role switcher" for testing). One shared auth shell — same card, typography, tokens, theme toggle — with a role selector (Student / Staff / Warden / Hostel Incharge) that switches the flow, not the design.
+One shared auth shell at `/login` — same card, typography, tokens, theme toggle — with a role selector (Student / Staff / Warden / Hostel Incharge) that switches the flow, not the design.
 
 ### Staff / Warden / Incharge — email + password
 
