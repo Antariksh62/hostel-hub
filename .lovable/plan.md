@@ -44,7 +44,7 @@ Nav: Overview, Complaints, Rooms, Staff, Reports, Profile.
 
 Both themes are first-class, built from one shared token set — no duplicated components, no inverted palette.
 
-- A `ThemeProvider` writes `.dark` on `<html>`, reads/writes `localStorage`, and defaults to the system preference. A labelled sun/moon toggle sits in the app chrome (sidebar footer on desktop, header on mobile) and on the role picker, so it works everywhere including dialogs, drawers, tables and mobile nav.
+- A `ThemeProvider` writes `.dark` on `<html>`, reads/writes `localStorage`, and defaults to the system preference. A labelled sun/moon toggle sits in the app chrome (sidebar footer on desktop, header on mobile) and on the login, OTP, registration and prototype-roles screens, so it works everywhere including dialogs, drawers, tables and mobile nav.
 - Dark surfaces are soft charcoal (never pure black) with slightly lifted card/popover layers; text is near-white, not `#fff`. Light mode stays white/light-gray with charcoal text.
 - Tokens defined per mode for background, foreground, card/popover, border, input, muted, primary blue, and status colors (green resolved, amber pending, red critical only) — with separate accessible foreground/tint values per mode for badges, empty states and error states.
 - Contrast checked in both modes; status always carries an icon and text label, never color alone.
