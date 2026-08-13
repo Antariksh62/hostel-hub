@@ -61,7 +61,7 @@ Loading skeletons, empty states ("No complaints yet.", "All caught up.", "No act
 
 ## Technical notes
 
-- TanStack Start file routes: `/` (role picker), `/student/*`, `/staff/*`, `/warden/*`, each role subtree with its own layout route rendering `<Outlet />` and role-appropriate nav.
+- TanStack Start file routes: `/login` (entry, `/` redirects to it), `/prototype-roles` (testing only), `/student/*`, `/staff/*`, `/warden/*`, each role subtree with its own layout route rendering `<Outlet />` and role-appropriate nav.
 - Design tokens in `src/styles.css` (`@theme inline` + `:root` + `.dark`). Moderate radii, minimal shadow, no gradients or glassmorphism.
 - shadcn primitives (button, input, select, badge, dialog, drawer/sheet, table, tabs, skeleton) styled to the tokens.
 - Mock data lives in `src/data/*.ts`: exactly 90 rooms (101–120, 201–220, 301–320, 401–420, 501–510), ~30 complaints across statuses/floors, ~6 staff, one student profile. Local React state per role subtree so status updates feel real during the session.
