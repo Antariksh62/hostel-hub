@@ -2,9 +2,9 @@
 
 A frontend-only prototype with three role experiences (Student, Staff, Warden) sharing one calm, minimal design system. Mock data only — no backend, auth, or APIs. The existing HOIDSS dashboard is not touched or imitated.
 
-## Role switcher
+## Entry flow
 
-The landing page (`/`) is a simple role picker: three plain rows (Student, Staff, Warden) with a one-line description of that role's mental model. A small persistent "Switch role" control in the app chrome returns here, so the prototype stays testable.
+`/login` is the entry point: `/` redirects there, and the normal flow is login → authentication → the matching dashboard. The old role picker is demoted to a prototype-only route, `/prototype-roles`, reachable from a small plain "Switch prototype role" text link in the app chrome and a discreet link under the login form. It is styled as a developer/testing utility — plain list, explicit "Prototype testing only" label — never as a production sign-in mechanism.
 
 ## Navigation model
 
