@@ -65,7 +65,7 @@ export function AppShell({
               return (
                 <Link
                   key={item.to}
-                  to={item.to}
+                  to={item.to as "/"}
                   aria-current={active ? "page" : undefined}
                   className={cn(
                     "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
@@ -125,7 +125,7 @@ export function AppShell({
             return (
               <li key={item.to} className="flex-1">
                 <Link
-                  to={item.to}
+                  to={item.to as "/"}
                   aria-current={active ? "page" : undefined}
                   className={cn(
                     "flex min-h-14 flex-col items-center justify-center gap-1 px-1 py-2 text-[11px] font-medium transition-colors",
