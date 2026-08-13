@@ -94,7 +94,7 @@ function LoginPage() {
     }
     if (result.existing) {
       auth.signInStudent(result.profile);
-      void navigate({ to: "/student" });
+      void navigate({ to: "/student" as "/" });
     } else {
       setNotice("First time here — complete your hostel profile.");
       setStep("register");
@@ -113,7 +113,7 @@ function LoginPage() {
     const profile: StudentProfile = { email: email.trim(), ...form };
     await auth.registerStudent(profile);
     setBusy(false);
-    void navigate({ to: "/student" });
+    void navigate({ to: "/student" as "/" });
   }
 
   async function handlePassword(e: React.FormEvent) {
@@ -122,7 +122,7 @@ function LoginPage() {
     setBusy(true);
     try {
       await auth.login(role as "staff" | "warden", email.trim(), password);
-      void navigate({ to: role === "staff" ? "/staff" : "/warden" });
+      void navigate({ to: (role === "staff" ? "/staff" : "/warden") as "/" });
     } catch (err) {
       setError((err as Error).message);
     } finally {
