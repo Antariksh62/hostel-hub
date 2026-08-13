@@ -71,7 +71,7 @@ export function HmsProvider({ children }: { children: ReactNode }) {
               ...c,
               status,
               updatedAt: now,
-              overdue: status === "resolved" ? false : c.overdue,
+              ...(status === "resolved" ? { overdue: false } : {}),
               ...(status === "resolved" && note ? { resolutionNote: note } : {}),
               timeline: [...c.timeline, { status, at: now, ...(note ? { note } : {}) }],
             }
