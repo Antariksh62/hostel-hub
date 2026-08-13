@@ -10,7 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as StaffRouteImport } from './routes/staff'
 import { Route as StudentRouteImport } from './routes/student'
+import { Route as StaffIndexRouteImport } from './routes/staff.index'
+import { Route as StaffHistoryRouteImport } from './routes/staff.history'
+import { Route as StaffProfileRouteImport } from './routes/staff.profile'
 import { Route as StudentIndexRouteImport } from './routes/student.index'
 import { Route as StudentComplaintsRouteImport } from './routes/student.complaints'
 import { Route as StudentProfileRouteImport } from './routes/student.profile'
@@ -21,10 +25,30 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StaffRoute = StaffRouteImport.update({
+  id: '/staff',
+  path: '/staff',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StudentRoute = StudentRouteImport.update({
   id: '/student',
   path: '/student',
   getParentRoute: () => rootRouteImport,
+} as any)
+const StaffIndexRoute = StaffIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => StaffRoute,
+} as any)
+const StaffHistoryRoute = StaffHistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => StaffRoute,
+} as any)
+const StaffProfileRoute = StaffProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => StaffRoute,
 } as any)
 const StudentIndexRoute = StudentIndexRouteImport.update({
   id: '/',
@@ -49,56 +73,79 @@ const StudentRoomRoute = StudentRoomRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/staff': typeof StaffRouteWithChildren
   '/student': typeof StudentRouteWithChildren
+  '/staff/history': typeof StaffHistoryRoute
+  '/staff/profile': typeof StaffProfileRoute
   '/student/complaints': typeof StudentComplaintsRoute
   '/student/profile': typeof StudentProfileRoute
   '/student/room': typeof StudentRoomRoute
+  '/staff/': typeof StaffIndexRoute
   '/student/': typeof StudentIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/staff/history': typeof StaffHistoryRoute
+  '/staff/profile': typeof StaffProfileRoute
   '/student/complaints': typeof StudentComplaintsRoute
   '/student/profile': typeof StudentProfileRoute
   '/student/room': typeof StudentRoomRoute
+  '/staff': typeof StaffIndexRoute
   '/student': typeof StudentIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/staff': typeof StaffRouteWithChildren
   '/student': typeof StudentRouteWithChildren
+  '/staff/history': typeof StaffHistoryRoute
+  '/staff/profile': typeof StaffProfileRoute
   '/student/complaints': typeof StudentComplaintsRoute
   '/student/profile': typeof StudentProfileRoute
   '/student/room': typeof StudentRoomRoute
+  '/staff/': typeof StaffIndexRoute
   '/student/': typeof StudentIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/staff'
     | '/student'
+    | '/staff/history'
+    | '/staff/profile'
     | '/student/complaints'
     | '/student/profile'
     | '/student/room'
+    | '/staff/'
     | '/student/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/staff/history'
+    | '/staff/profile'
     | '/student/complaints'
     | '/student/profile'
     | '/student/room'
+    | '/staff'
     | '/student'
   id:
     | '__root__'
     | '/'
+    | '/staff'
     | '/student'
+    | '/staff/history'
+    | '/staff/profile'
     | '/student/complaints'
     | '/student/profile'
     | '/student/room'
+    | '/staff/'
     | '/student/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  StaffRoute: typeof StaffRouteWithChildren
   StudentRoute: typeof StudentRouteWithChildren
 }
 
@@ -111,12 +158,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/staff': {
+      id: '/staff'
+      path: '/staff'
+      fullPath: '/staff'
+      preLoaderRoute: typeof StaffRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/student': {
       id: '/student'
       path: '/student'
       fullPath: '/student'
       preLoaderRoute: typeof StudentRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/staff/': {
+      id: '/staff/'
+      path: '/'
+      fullPath: '/staff/'
+      preLoaderRoute: typeof StaffIndexRouteImport
+      parentRoute: typeof StaffRoute
+    }
+    '/staff/history': {
+      id: '/staff/history'
+      path: '/history'
+      fullPath: '/staff/history'
+      preLoaderRoute: typeof StaffHistoryRouteImport
+      parentRoute: typeof StaffRoute
+    }
+    '/staff/profile': {
+      id: '/staff/profile'
+      path: '/profile'
+      fullPath: '/staff/profile'
+      preLoaderRoute: typeof StaffProfileRouteImport
+      parentRoute: typeof StaffRoute
     }
     '/student/': {
       id: '/student/'
@@ -149,6 +224,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface StaffRouteChildren {
+  StaffHistoryRoute: typeof StaffHistoryRoute
+  StaffProfileRoute: typeof StaffProfileRoute
+  StaffIndexRoute: typeof StaffIndexRoute
+}
+
+const StaffRouteChildren: StaffRouteChildren = {
+  StaffHistoryRoute: StaffHistoryRoute,
+  StaffProfileRoute: StaffProfileRoute,
+  StaffIndexRoute: StaffIndexRoute,
+}
+
+const StaffRouteWithChildren = StaffRoute._addFileChildren(StaffRouteChildren)
+
 interface StudentRouteChildren {
   StudentComplaintsRoute: typeof StudentComplaintsRoute
   StudentProfileRoute: typeof StudentProfileRoute
@@ -168,6 +257,7 @@ const StudentRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  StaffRoute: StaffRouteWithChildren,
   StudentRoute: StudentRouteWithChildren,
 }
 export const routeTree = rootRouteImport
