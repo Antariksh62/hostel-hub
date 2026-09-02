@@ -42,8 +42,6 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-const delay = (ms = 650) => new Promise<void>((r) => setTimeout(r, ms));
-
 const staffAccount = {
   name: "Ramesh Pawar",
   email: "staff@hostel.local",
@@ -55,7 +53,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [registered, setRegistered] = useState<StudentProfile[]>(students);
 
   const login = useCallback(async (role: Exclude<Role, "student">, email: string, password: string) => {
-    await delay();
     // Mock rule: any non-empty password of 4+ characters signs in.
     if (password.trim().length < 4) {
       throw new Error("Incorrect email or password.");
@@ -69,13 +66,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const sendOtp = useCallback(async (_email: string) => {
-    await delay(700);
-  }, []);
+  // No OTP is sent anywhere — this mock only advances the local UI step.
+  const sendOtp = useCallback(async (_email: string) => {}, []);
 
   const verifyOtp = useCallback(
     async (email: string, code: string): Promise<OtpResult> => {
-      await delay();
       if (code === MOCK_EXPIRED_OTP) return { ok: false, reason: "expired" };
       if (code === MOCK_WRONG_OTP || !/^\d{6}$/.test(code)) return { ok: false, reason: "invalid" };
       const profile = registered.find((s) => s.email.toLowerCase() === email.toLowerCase());
@@ -96,7 +91,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const registerStudent = useCallback(
     async (profile: StudentProfile) => {
-      await delay(800);
       setRegistered((prev) => [...prev, profile]);
       signInStudent(profile);
       return profile;
