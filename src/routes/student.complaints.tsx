@@ -5,6 +5,8 @@ import { toast } from "sonner";
 
 import { EmptyState, PageHeader } from "@/components/hms/app-shell";
 import { ComplaintCard } from "@/components/hms/complaint-card";
+import { MediaGallery } from "@/components/hms/media-gallery";
+import { MediaUploader } from "@/components/hms/media-uploader";
 import { STATUS_LABEL, formatDateTime } from "@/components/hms/status";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,7 +21,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import type { Complaint, ComplaintCategory } from "@/data/prototype-data";
+import type { Complaint, ComplaintAttachment, ComplaintCategory } from "@/data/prototype-data";
+import { releaseAttachment } from "@/lib/media";
 import { useAuth } from "@/services/auth";
 import { staffName, useHms } from "@/services/hms-store";
 
@@ -45,6 +48,7 @@ function StudentComplaints() {
   const [category, setCategory] = useState<ComplaintCategory>("Electrical");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [attachments, setAttachments] = useState<ComplaintAttachment[]>([]);
 
   const mine = complaints.filter((c) => c.studentEmail === currentUser?.email);
 
@@ -59,9 +63,11 @@ function StudentComplaints() {
       room: currentUser.student.room,
       studentEmail: currentUser.email,
       studentName: currentUser.name,
+      attachments,
     });
     setTitle("");
     setDescription("");
+    setAttachments([]);
     setOpen(false);
     toast.success("Complaint submitted");
   }
@@ -94,7 +100,16 @@ function StudentComplaints() {
         </div>
       )}
 
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog
+        open={open}
+        onOpenChange={(o) => {
+          if (!o) {
+            attachments.forEach(releaseAttachment);
+            setAttachments([]);
+          }
+          setOpen(o);
+        }}
+      >
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Report a problem</DialogTitle>
@@ -142,6 +157,10 @@ function StudentComplaints() {
                 placeholder="Add anything that helps the staff find and fix it."
               />
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="complaint-media">Attachments (optional)</Label>
+              <MediaUploader attachments={attachments} onChange={setAttachments} />
+            </div>
             <DialogFooter>
               <Button type="submit" className="min-h-11 w-full">
                 Submit complaint
@@ -162,6 +181,7 @@ function StudentComplaints() {
                 </DialogDescription>
               </DialogHeader>
               <p className="text-sm text-muted-foreground">{selected.description}</p>
+              <MediaGallery attachments={selected.attachments} />
               <div className="rounded-lg border border-border p-3">
                 <p className="text-xs font-medium text-muted-foreground">Assigned to</p>
                 <p className="text-sm">{staffName(selected.assignedStaffId) ?? "Not assigned yet"}</p>
