@@ -16,10 +16,10 @@ export const LEAK_EVIDENCE: ComplaintAttachment[] = [
   {
     id: "att-leak-2",
     type: "video",
-    name: "dripping-pipe.mp4",
-    url: "/mock/evidence-tap.mp4",
-    size: 6_856,
-    mimeType: "video/mp4",
+    name: "dripping-pipe.webm",
+    url: "/mock/evidence-tap.webm",
+    size: 8_408,
+    mimeType: "video/webm",
   },
 ];
 
@@ -38,10 +38,10 @@ export const FLUSH_EVIDENCE: ComplaintAttachment[] = [
   {
     id: "att-flush-1",
     type: "video",
-    name: "flush-tank.mp4",
-    url: "/mock/evidence-tap.mp4",
-    size: 6_856,
-    mimeType: "video/mp4",
+    name: "flush-tank.webm",
+    url: "/mock/evidence-tap.webm",
+    size: 8_408,
+    mimeType: "video/webm",
   },
   {
     id: "att-flush-2",
