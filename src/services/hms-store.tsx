@@ -10,6 +10,7 @@ import {
   rooms,
   staff,
   type Complaint,
+  type ComplaintAttachment,
   type ComplaintCategory,
   type ComplaintStatus,
 } from "@/data/prototype-data";
@@ -21,7 +22,7 @@ interface NewComplaintInput {
   room: string;
   studentEmail: string;
   studentName: string;
-  hasMedia?: boolean;
+  attachments?: ComplaintAttachment[];
 }
 
 interface HmsContextValue {
@@ -55,7 +56,7 @@ export function HmsProvider({ children }: { children: ReactNode }) {
       updatedAt: now,
       studentEmail: input.studentEmail,
       studentName: input.studentName,
-      ...(input.hasMedia ? { hasMedia: true } : {}),
+      ...(input.attachments?.length ? { attachments: input.attachments } : {}),
       timeline: [{ status: "submitted", at: now }],
     };
     setList((prev) => [complaint, ...prev]);

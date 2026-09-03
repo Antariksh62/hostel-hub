@@ -1,4 +1,4 @@
-import { ImageIcon, MapPin } from "lucide-react";
+import { MapPin, Paperclip } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { OverdueBadge, StatusBadge, relativeTime } from "@/components/hms/status";
@@ -32,12 +32,13 @@ export function ComplaintCard({
             <span>{complaint.category}</span>
             <span aria-hidden>·</span>
             <span>{relativeTime(complaint.updatedAt)}</span>
-            {complaint.hasMedia ? (
+            {complaint.attachments?.length ? (
               <>
                 <span aria-hidden>·</span>
                 <span className="inline-flex items-center gap-1">
-                  <ImageIcon className="size-3" aria-hidden />
-                  Photo
+                  <Paperclip className="size-3" aria-hidden />
+                  {complaint.attachments.length} attachment
+                  {complaint.attachments.length > 1 ? "s" : ""}
                 </span>
               </>
             ) : null}
