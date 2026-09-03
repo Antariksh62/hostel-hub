@@ -3,6 +3,7 @@
  * Nothing here talks to a backend. The real HMS API/service layer replaces
  * this file plus `src/services/*` without touching any UI component.
  */
+import { FLUSH_EVIDENCE, LEAK_EVIDENCE, SOCKET_EVIDENCE } from "./mock-attachments";
 
 export type ComplaintStatus = "submitted" | "assigned" | "in_progress" | "resolved";
 
@@ -178,7 +179,7 @@ export const complaints: Complaint[] = [
     studentEmail: "student@ms.pict.edu",
     studentName: "Antariksh Rajesh Kothari",
     assignedStaffId: "s2",
-    hasMedia: true,
+    attachments: LEAK_EVIDENCE,
     timeline: [line("submitted", 30), line("assigned", 26), line("in_progress", 4)],
   },
   {
@@ -230,7 +231,7 @@ export const complaints: Complaint[] = [
     studentEmail: "nikhil.p@ms.pict.edu",
     studentName: "Nikhil Patil",
     assignedStaffId: "s1",
-    hasMedia: true,
+    attachments: SOCKET_EVIDENCE,
     timeline: [line("submitted", 48), line("assigned", 44), line("in_progress", 6)],
   },
   {
@@ -392,7 +393,7 @@ export const complaints: Complaint[] = [
     studentName: "Arjun Tambe",
     assignedStaffId: "s2",
     overdue: true,
-    hasMedia: true,
+    attachments: FLUSH_EVIDENCE,
     timeline: [line("submitted", 80), line("assigned", 76)],
   },
   {
