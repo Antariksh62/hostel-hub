@@ -5,6 +5,7 @@ import { toast } from "sonner";
 
 import { EmptyState, PageHeader } from "@/components/hms/app-shell";
 import { ComplaintCard } from "@/components/hms/complaint-card";
+import { MediaGallery } from "@/components/hms/media-gallery";
 import { StatCard } from "@/components/hms/stat-card";
 import { Button } from "@/components/ui/button";
 import {
@@ -35,6 +36,7 @@ function StaffWork() {
   const { complaints, updateComplaintStatus } = useHms();
   const [resolving, setResolving] = useState<Complaint | null>(null);
   const [note, setNote] = useState("");
+  const [detail, setDetail] = useState<Complaint | null>(null);
 
   const mine = complaints.filter((c) => c.assignedStaffId === CURRENT_STAFF_ID && c.status !== "resolved");
   const inProgress = mine.filter((c) => c.status === "in_progress");
@@ -61,6 +63,9 @@ function StaffWork() {
               meta={<span>Reported by {c.studentName}</span>}
               footer={
                 <div className="flex flex-wrap gap-2">
+                  <Button size="sm" variant="ghost" className="min-h-10" onClick={() => setDetail(c)}>
+                    View details
+                  </Button>
                   {c.status !== "in_progress" ? (
                     <Button
                       size="sm"
@@ -90,6 +95,24 @@ function StaffWork() {
           ))}
         </div>
       )}
+
+      <Dialog open={detail !== null} onOpenChange={(o) => !o && setDetail(null)}>
+        <DialogContent className="max-h-[90dvh] overflow-y-auto sm:max-w-md">
+          {detail ? (
+            <>
+              <DialogHeader>
+                <DialogTitle>{detail.title}</DialogTitle>
+                <DialogDescription>
+                  {detail.id} · Room {detail.room} · {detail.category}
+                </DialogDescription>
+              </DialogHeader>
+              <p className="text-sm text-muted-foreground">{detail.description}</p>
+              <p className="text-xs text-muted-foreground">Reported by {detail.studentName}</p>
+              <MediaGallery attachments={detail.attachments} />
+            </>
+          ) : null}
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={resolving !== null} onOpenChange={(o) => !o && setResolving(null)}>
         <DialogContent className="sm:max-w-md">
