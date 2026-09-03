@@ -3,6 +3,7 @@
  * Nothing here talks to a backend. The real HMS API/service layer replaces
  * this file plus `src/services/*` without touching any UI component.
  */
+import { FLUSH_EVIDENCE, LEAK_EVIDENCE, SOCKET_EVIDENCE } from "./mock-attachments";
 
 export type ComplaintStatus = "submitted" | "assigned" | "in_progress" | "resolved";
 
@@ -20,6 +21,21 @@ export interface TimelineEntry {
   note?: string;
 }
 
+/**
+ * Attachment metadata. `url` is a local prototype asset or a browser object
+ * URL today; a real backend later fills the same shape with hosted URLs.
+ */
+export interface ComplaintAttachment {
+  id: string;
+  type: "image" | "video";
+  name: string;
+  url: string;
+  size: number;
+  mimeType?: string;
+  /** true when the URL is a browser object URL created in this session. */
+  local?: boolean;
+}
+
 export interface Complaint {
   id: string;
   room: string;
@@ -34,7 +50,7 @@ export interface Complaint {
   studentName: string;
   assignedStaffId?: string;
   overdue?: boolean;
-  hasMedia?: boolean;
+  attachments?: ComplaintAttachment[];
   resolutionNote?: string;
   timeline: TimelineEntry[];
 }
@@ -163,7 +179,7 @@ export const complaints: Complaint[] = [
     studentEmail: "student@ms.pict.edu",
     studentName: "Antariksh Rajesh Kothari",
     assignedStaffId: "s2",
-    hasMedia: true,
+    attachments: LEAK_EVIDENCE,
     timeline: [line("submitted", 30), line("assigned", 26), line("in_progress", 4)],
   },
   {
@@ -215,7 +231,7 @@ export const complaints: Complaint[] = [
     studentEmail: "nikhil.p@ms.pict.edu",
     studentName: "Nikhil Patil",
     assignedStaffId: "s1",
-    hasMedia: true,
+    attachments: SOCKET_EVIDENCE,
     timeline: [line("submitted", 48), line("assigned", 44), line("in_progress", 6)],
   },
   {
@@ -377,7 +393,7 @@ export const complaints: Complaint[] = [
     studentName: "Arjun Tambe",
     assignedStaffId: "s2",
     overdue: true,
-    hasMedia: true,
+    attachments: FLUSH_EVIDENCE,
     timeline: [line("submitted", 80), line("assigned", 76)],
   },
   {
