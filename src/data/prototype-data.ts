@@ -20,6 +20,21 @@ export interface TimelineEntry {
   note?: string;
 }
 
+/**
+ * Attachment metadata. `url` is a local prototype asset or a browser object
+ * URL today; a real backend later fills the same shape with hosted URLs.
+ */
+export interface ComplaintAttachment {
+  id: string;
+  type: "image" | "video";
+  name: string;
+  url: string;
+  size: number;
+  mimeType?: string;
+  /** true when the URL is a browser object URL created in this session. */
+  local?: boolean;
+}
+
 export interface Complaint {
   id: string;
   room: string;
@@ -34,7 +49,7 @@ export interface Complaint {
   studentName: string;
   assignedStaffId?: string;
   overdue?: boolean;
-  hasMedia?: boolean;
+  attachments?: ComplaintAttachment[];
   resolutionNote?: string;
   timeline: TimelineEntry[];
 }
