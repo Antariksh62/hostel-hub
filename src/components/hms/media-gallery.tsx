@@ -19,7 +19,7 @@ function Thumb({
 }: {
   attachment: ComplaintAttachment;
   onOpen: () => void;
-  overlay?: string;
+  overlay?: string | undefined;
 }) {
   const [failed, setFailed] = useState(false);
   const label =
