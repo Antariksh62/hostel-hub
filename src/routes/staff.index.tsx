@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { CheckCircle2 } from "lucide-react";
+import { AlertTriangle, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -45,15 +45,24 @@ function StaffWork() {
 
   return (
     <>
-      <PageHeader title="My work" description="Jobs assigned to you. Update the status as you go." />
+       <PageHeader title="My work" description="Your assigned maintenance queue, sorted by latest activity." />
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-        <StatCard label="Open jobs" value={mine.length} tone="warning" />
-        <StatCard label="In progress" value={inProgress.length} tone="info" />
-        <StatCard label="Overdue" value={mine.filter((c) => c.overdue).length} tone="critical" />
+         <StatCard label="Open jobs" value={mine.length} tone="warning" hint="Assigned to you" />
+         <StatCard label="In progress" value={inProgress.length} tone="info" hint="Currently active" />
+         <StatCard
+           label="Overdue"
+           value={mine.filter((c) => c.overdue).length}
+           tone="critical"
+           hint="Needs priority"
+           icon={AlertTriangle}
+         />
       </div>
 
-      <h2 className="mt-8 mb-3 text-sm font-semibold">Assigned to me</h2>
+       <div className="mt-9 mb-3">
+         <h2 className="text-base font-semibold">Assigned to me</h2>
+         <p className="mt-0.5 text-sm text-muted-foreground">Open jobs that need an update.</p>
+       </div>
       {mine.length === 0 ? (
         <EmptyState icon={CheckCircle2} title="All clear" description="You have no open jobs right now." />
       ) : (
@@ -103,7 +112,10 @@ function StaffWork() {
           {detail ? (
             <>
                <DialogHeader>
-                 <ComplaintHeader complaint={detail} />
+                 <ComplaintHeader
+                   complaint={detail}
+                   heading={<DialogTitle className="text-lg leading-6 text-balance">{detail.title}</DialogTitle>}
+                 />
                  <DialogDescription className="sr-only">Assigned complaint details and evidence</DialogDescription>
                </DialogHeader>
                <p className="text-sm leading-6 text-muted-foreground">{detail.description}</p>

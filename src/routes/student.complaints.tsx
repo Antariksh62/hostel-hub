@@ -176,7 +176,10 @@ function StudentComplaints() {
           {selected ? (
             <>
                <DialogHeader>
-                 <ComplaintHeader complaint={selected} />
+                 <ComplaintHeader
+                   complaint={selected}
+                   heading={<DialogTitle className="text-lg leading-6 text-balance">{selected.title}</DialogTitle>}
+                 />
                  <DialogDescription className="sr-only">Complaint details and progress history</DialogDescription>
                </DialogHeader>
                <p className="text-sm leading-6 text-muted-foreground">{selected.description}</p>

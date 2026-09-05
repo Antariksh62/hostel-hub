@@ -109,7 +109,10 @@ function WardenComplaints() {
           {detail ? (
             <>
                <DialogHeader>
-                 <ComplaintHeader complaint={detail} />
+                 <ComplaintHeader
+                   complaint={detail}
+                   heading={<DialogTitle className="text-lg leading-6 text-balance">{detail.title}</DialogTitle>}
+                 />
                  <DialogDescription className="sr-only">Complaint details, assignment and evidence</DialogDescription>
                </DialogHeader>
                <p className="text-sm leading-6 text-muted-foreground">{detail.description}</p>

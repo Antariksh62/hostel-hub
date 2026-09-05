@@ -26,12 +26,12 @@ export function StatCard({
   icon?: LucideIcon;
 }) {
   return (
-    <div className="rounded-xl border border-border bg-card p-4">
+    <div className="rounded-xl border border-border bg-card p-4 sm:p-5">
       <div className="flex items-center justify-between gap-2">
         <p className="text-xs font-medium text-muted-foreground">{label}</p>
         {Icon ? <Icon className="size-4 text-muted-foreground" aria-hidden /> : null}
       </div>
-      <p className={cn("mt-2 text-2xl font-semibold tracking-tight tabular-nums", TONE[tone])}>
+      <p className={cn("mt-2 text-2xl font-semibold tracking-tight tabular-nums sm:text-3xl", TONE[tone])}>
         {value}
       </p>
       {hint ? <p className="mt-1 text-xs text-muted-foreground">{hint}</p> : null}

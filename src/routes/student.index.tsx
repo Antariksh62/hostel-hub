@@ -1,5 +1,5 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { ClipboardList, Plus } from "lucide-react";
+import { ArrowRight, ClipboardList, Plus } from "lucide-react";
 
 import { PageHeader, EmptyState } from "@/components/hms/app-shell";
 import { ComplaintCard } from "@/components/hms/complaint-card";
@@ -41,13 +41,24 @@ function StudentHome() {
         }
       />
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-        <StatCard label="Open" value={open.length} tone="warning" />
-        <StatCard label="Resolved" value={mine.length - open.length} tone="success" />
-        <StatCard label="Room" value={currentUser?.student?.room ?? "—"} />
+       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+         <StatCard label="Open requests" value={open.length} tone="warning" hint="Need attention" />
+         <StatCard label="Resolved" value={mine.length - open.length} tone="success" hint="Completed" />
+         <StatCard label="Your room" value={currentUser?.student?.room ?? "—"} hint="Current allocation" />
       </div>
 
-      <h2 className="mt-8 mb-3 text-sm font-semibold">Active requests</h2>
+       <div className="mt-9 mb-3 flex items-center justify-between gap-3">
+         <div>
+           <h2 className="text-base font-semibold">Active requests</h2>
+           <p className="mt-0.5 text-sm text-muted-foreground">The latest status of problems you reported.</p>
+         </div>
+         <Link
+           to="/student/complaints"
+           className="inline-flex shrink-0 items-center gap-1 text-sm font-medium text-primary hover:underline"
+         >
+           View all <ArrowRight className="size-4" aria-hidden />
+         </Link>
+       </div>
       {open.length === 0 ? (
         <EmptyState
           icon={ClipboardList}
