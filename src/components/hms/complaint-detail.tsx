@@ -5,7 +5,13 @@ import type { Complaint } from "@/data/prototype-data";
 import { cn } from "@/lib/utils";
 
 /** Title block shared by every role's complaint detail view. */
-export function ComplaintHeader({ complaint }: { complaint: Complaint }) {
+export function ComplaintHeader({
+  complaint,
+  heading,
+}: {
+  complaint: Complaint;
+  heading?: ReactNode;
+}) {
   return (
     <div className="space-y-2.5">
       <div className="flex flex-wrap items-center gap-2">
@@ -13,7 +19,7 @@ export function ComplaintHeader({ complaint }: { complaint: Complaint }) {
         {complaint.overdue && complaint.status !== "resolved" ? <OverdueBadge /> : null}
         <span className="text-xs text-muted-foreground tabular-nums">{complaint.id}</span>
       </div>
-      <h2 className="text-lg leading-6 font-semibold tracking-tight text-balance">{complaint.title}</h2>
+      {heading ?? <h2 className="text-lg leading-6 font-semibold tracking-tight text-balance">{complaint.title}</h2>}
     </div>
   );
 }

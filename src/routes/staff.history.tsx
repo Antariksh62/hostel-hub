@@ -24,7 +24,7 @@ function StaffHistory() {
 
   return (
     <>
-      <PageHeader title="History" description="Everything you have completed." />
+       <PageHeader title="History" description={`${done.length} completed ${done.length === 1 ? "job" : "jobs"}.`} />
       {done.length === 0 ? (
         <EmptyState icon={History} title="Nothing completed yet" description="Resolved jobs will be listed here." />
       ) : (

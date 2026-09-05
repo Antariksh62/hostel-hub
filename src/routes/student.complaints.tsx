@@ -7,7 +7,8 @@ import { EmptyState, PageHeader } from "@/components/hms/app-shell";
 import { ComplaintCard } from "@/components/hms/complaint-card";
 import { MediaGallery } from "@/components/hms/media-gallery";
 import { MediaUploader } from "@/components/hms/media-uploader";
-import { STATUS_LABEL, formatDateTime } from "@/components/hms/status";
+import { ComplaintHeader, ComplaintMeta, DetailSection } from "@/components/hms/complaint-detail";
+import { ComplaintTimeline } from "@/components/hms/complaint-timeline";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -174,30 +175,28 @@ function StudentComplaints() {
         <DialogContent className="sm:max-w-md">
           {selected ? (
             <>
-              <DialogHeader>
-                <DialogTitle>{selected.title}</DialogTitle>
-                <DialogDescription>
-                  {selected.id} · Room {selected.room} · {selected.category}
-                </DialogDescription>
-              </DialogHeader>
-              <p className="text-sm text-muted-foreground">{selected.description}</p>
-              <MediaGallery attachments={selected.attachments} />
-              <div className="rounded-lg border border-border p-3">
-                <p className="text-xs font-medium text-muted-foreground">Assigned to</p>
-                <p className="text-sm">{staffName(selected.assignedStaffId) ?? "Not assigned yet"}</p>
-              </div>
-              <ol className="space-y-3">
-                {selected.timeline.map((t, i) => (
-                  <li key={i} className="flex gap-3">
-                    <span className="mt-1.5 size-2 shrink-0 rounded-full bg-primary" aria-hidden />
-                    <div>
-                      <p className="text-sm font-medium">{STATUS_LABEL[t.status]}</p>
-                      <p className="text-xs text-muted-foreground">{formatDateTime(t.at)}</p>
-                      {t.note ? <p className="mt-1 text-sm text-muted-foreground">{t.note}</p> : null}
-                    </div>
-                  </li>
-                ))}
-              </ol>
+               <DialogHeader>
+                 <ComplaintHeader
+                   complaint={selected}
+                   heading={<DialogTitle className="text-lg leading-6 text-balance">{selected.title}</DialogTitle>}
+                 />
+                 <DialogDescription className="sr-only">Complaint details and progress history</DialogDescription>
+               </DialogHeader>
+               <p className="text-sm leading-6 text-muted-foreground">{selected.description}</p>
+               <ComplaintMeta
+                 items={[
+                   { label: "Room", value: selected.room },
+                   { label: "Category", value: selected.category },
+                   { label: "Assigned to", value: staffName(selected.assignedStaffId) ?? "Not assigned yet" },
+                   { label: "Reported by", value: selected.studentName },
+                 ]}
+               />
+               <DetailSection title="Evidence">
+                 <MediaGallery attachments={selected.attachments} />
+               </DetailSection>
+               <DetailSection title="Progress">
+                 <ComplaintTimeline complaint={selected} />
+               </DetailSection>
             </>
           ) : null}
         </DialogContent>

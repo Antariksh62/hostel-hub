@@ -1,3 +1,5 @@
+import { CheckCircle2, CircleDot, UserRoundCheck, Wrench } from "lucide-react";
+
 import type { ComplaintStatus } from "@/data/prototype-data";
 import { cn } from "@/lib/utils";
 
@@ -21,11 +23,22 @@ const STATUS_STYLE: Record<ComplaintStatus, string> = {
 
 export function StatusBadge({
   status,
+  withIcon = false,
   className,
 }: {
   status: ComplaintStatus;
+  withIcon?: boolean;
   className?: string;
 }) {
+  const Icon =
+    status === "submitted"
+      ? CircleDot
+      : status === "assigned"
+        ? UserRoundCheck
+        : status === "in_progress"
+          ? Wrench
+          : CheckCircle2;
+
   return (
     <span
       className={cn(
@@ -34,6 +47,7 @@ export function StatusBadge({
         className,
       )}
     >
+      {withIcon ? <Icon className="mr-1.5 size-3.5" aria-hidden /> : null}
       {STATUS_LABEL[status]}
     </span>
   );
