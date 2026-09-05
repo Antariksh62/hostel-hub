@@ -5,6 +5,8 @@ import { toast } from "sonner";
 
 import { EmptyState, PageHeader } from "@/components/hms/app-shell";
 import { ComplaintCard } from "@/components/hms/complaint-card";
+import { ComplaintHeader, ComplaintMeta, DetailSection } from "@/components/hms/complaint-detail";
+import { ComplaintTimeline } from "@/components/hms/complaint-timeline";
 import { MediaGallery } from "@/components/hms/media-gallery";
 import { StatCard } from "@/components/hms/stat-card";
 import { Button } from "@/components/ui/button";
@@ -100,15 +102,24 @@ function StaffWork() {
         <DialogContent className="max-h-[90dvh] overflow-y-auto sm:max-w-md">
           {detail ? (
             <>
-              <DialogHeader>
-                <DialogTitle>{detail.title}</DialogTitle>
-                <DialogDescription>
-                  {detail.id} · Room {detail.room} · {detail.category}
-                </DialogDescription>
-              </DialogHeader>
-              <p className="text-sm text-muted-foreground">{detail.description}</p>
-              <p className="text-xs text-muted-foreground">Reported by {detail.studentName}</p>
-              <MediaGallery attachments={detail.attachments} />
+               <DialogHeader>
+                 <ComplaintHeader complaint={detail} />
+                 <DialogDescription className="sr-only">Assigned complaint details and evidence</DialogDescription>
+               </DialogHeader>
+               <p className="text-sm leading-6 text-muted-foreground">{detail.description}</p>
+               <ComplaintMeta
+                 items={[
+                   { label: "Room", value: detail.room },
+                   { label: "Category", value: detail.category },
+                   { label: "Reported by", value: detail.studentName },
+                 ]}
+               />
+               <DetailSection title="Evidence">
+                 <MediaGallery attachments={detail.attachments} />
+               </DetailSection>
+               <DetailSection title="Progress">
+                 <ComplaintTimeline complaint={detail} variant="staff" />
+               </DetailSection>
             </>
           ) : null}
         </DialogContent>
