@@ -4,6 +4,7 @@ import { ArrowRight, ClipboardCheck, DoorOpen, Inbox, TriangleAlert } from "luci
 import { EmptyState, PageHeader } from "@/components/hms/app-shell";
 import { ComplaintCard } from "@/components/hms/complaint-card";
 import { StatCard } from "@/components/hms/stat-card";
+import { Button } from "@/components/ui/button";
 import { staffName, useHms } from "@/services/hms-store";
 
 export const Route = createFileRoute("/warden/")({
@@ -24,6 +25,7 @@ function WardenOverview() {
   const unassigned = open.filter((c) => !c.assignedStaffId);
   const overdue = open.filter((c) => c.overdue);
   const occupied = rooms.filter((r) => r.occupied).length;
+  const prioritized = [...new Map([...overdue, ...unassigned].map((c) => [c.id, c])).values()].slice(0, 6);
 
   return (
     <>
@@ -31,12 +33,11 @@ function WardenOverview() {
          title="Overview"
          description="A focused view of what needs attention across the hostel."
          action={
-           <Link
-             to="/warden/complaints"
-             className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-lg border border-border bg-card px-3.5 text-sm font-medium transition-colors hover:bg-accent"
-           >
-             Open complaints <ArrowRight className="size-4" aria-hidden />
-           </Link>
+           <Button asChild variant="outline" className="min-h-11 shrink-0">
+             <Link to="/warden/complaints">
+               Open complaints <ArrowRight className="size-4" aria-hidden />
+             </Link>
+           </Button>
          }
        />
 
@@ -54,13 +55,13 @@ function WardenOverview() {
            <h2 className="text-base font-semibold">Needs attention</h2>
            <p className="mt-0.5 text-sm text-muted-foreground">Prioritised by urgency and assignment status.</p>
          </div>
-         <span className="shrink-0 text-xs text-muted-foreground">{Math.min(6, new Set([...overdue, ...unassigned].map((c) => c.id)).size)} shown</span>
+         <span className="shrink-0 text-xs text-muted-foreground">{prioritized.length} shown</span>
        </div>
-       {[...new Map([...overdue, ...unassigned].map((c) => [c.id, c])).values()].slice(0, 6).length === 0 ? (
+       {prioritized.length === 0 ? (
          <EmptyState icon={ClipboardCheck} title="Nothing needs attention" description="Open complaints are assigned and within their expected response time." />
        ) : (
          <div className="space-y-3">
-           {[...new Map([...overdue, ...unassigned].map((c) => [c.id, c])).values()].slice(0, 6).map((c) => (
+           {prioritized.map((c) => (
           <ComplaintCard
             key={c.id}
             complaint={c}
