@@ -10,6 +10,8 @@ export const Route = createFileRoute("/student/profile")({
       { name: "description", content: "Your hostel profile: PRN, branch, division, academic year and room." },
       { property: "og:title", content: "My profile — Hostel Management System" },
       { property: "og:description", content: "Your hostel profile and allotment details." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: StudentProfilePage,

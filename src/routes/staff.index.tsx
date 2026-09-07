@@ -29,6 +29,8 @@ export const Route = createFileRoute("/staff/")({
       { name: "description", content: "Assigned hostel maintenance jobs with one-tap status updates." },
       { property: "og:title", content: "My work — Hostel Management System" },
       { property: "og:description", content: "Assigned hostel maintenance jobs for today." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: StaffWork,

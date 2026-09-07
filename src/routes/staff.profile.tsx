@@ -11,6 +11,8 @@ export const Route = createFileRoute("/staff/profile")({
       { name: "description", content: "Your maintenance staff profile and assigned trade in the hostel." },
       { property: "og:title", content: "Staff profile — Hostel Management System" },
       { property: "og:description", content: "Maintenance staff profile and trade." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: StaffProfile,

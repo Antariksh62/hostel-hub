@@ -14,6 +14,8 @@ export const Route = createFileRoute("/warden/")({
       { name: "description", content: "Hostel-wide view of open complaints, overdue work and room occupancy." },
       { property: "og:title", content: "Warden overview — Hostel Management System" },
       { property: "og:description", content: "Open complaints, overdue work and occupancy at a glance." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: WardenOverview,

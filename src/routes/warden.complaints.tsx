@@ -26,6 +26,8 @@ export const Route = createFileRoute("/warden/complaints")({
       { name: "description", content: "Review every hostel complaint and assign it to the right maintenance staff." },
       { property: "og:title", content: "All complaints — Hostel Management System" },
       { property: "og:description", content: "Review and assign hostel complaints." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: WardenComplaints,
