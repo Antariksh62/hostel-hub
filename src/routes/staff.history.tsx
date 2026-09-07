@@ -13,6 +13,8 @@ export const Route = createFileRoute("/staff/history")({
       { name: "description", content: "Jobs you have completed, with the resolution note recorded for each." },
       { property: "og:title", content: "Work history — Hostel Management System" },
       { property: "og:description", content: "Completed hostel maintenance jobs." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: StaffHistory,

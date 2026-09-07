@@ -12,6 +12,8 @@ export const Route = createFileRoute("/warden/rooms")({
       { name: "description", content: "All 90 hostel rooms across five floors with occupancy and open complaints." },
       { property: "og:title", content: "Rooms — Hostel Management System" },
       { property: "og:description", content: "Occupancy and open issues for every hostel room." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: WardenRooms,

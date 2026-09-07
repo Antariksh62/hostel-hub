@@ -12,6 +12,8 @@ export const Route = createFileRoute("/student/room")({
       { name: "description", content: "Room allotment details and the maintenance history for your hostel room." },
       { property: "og:title", content: "My room — Hostel Management System" },
       { property: "og:description", content: "Room allotment details and maintenance history." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: StudentRoom,

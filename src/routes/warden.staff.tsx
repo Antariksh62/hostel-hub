@@ -10,6 +10,8 @@ export const Route = createFileRoute("/warden/staff")({
       { name: "description", content: "Maintenance staff list with current workload and completed jobs." },
       { property: "og:title", content: "Staff workload — Hostel Management System" },
       { property: "og:description", content: "Maintenance staff workload across the hostel." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: WardenStaff,

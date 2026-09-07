@@ -34,6 +34,8 @@ export const Route = createFileRoute("/student/complaints")({
       { name: "description", content: "Report hostel problems and follow every update until they are resolved." },
       { property: "og:title", content: "My complaints — Hostel Management System" },
       { property: "og:description", content: "Report hostel problems and follow every update." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: StudentComplaints,
